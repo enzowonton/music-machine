@@ -7,13 +7,13 @@
 //
 // Works with any of the board starters:
 //   btn1 .. btn4        ->  drum samples (data folder)
-//   touch1 .. touch7    ->  notes in our shared key
+//   touch1 .. touch9    ->  notes in our shared key
 //   knob1:0..100        ->  volume
 //   knob2:0..100        ->  pitch (samples) and octave (notes)
 //
 // No board yet? It still runs. Use the keyboard:
 //   1 2 3 4             ->  btn1 .. btn4
-//   a s d f g h j       ->  touch1 .. touch7
+//   a s d f g h j k l   ->  touch1 .. touch9
 //   up / down arrows    ->  knob1      left / right arrows -> knob2
 //   c                   ->  click track on / off
 //
@@ -32,8 +32,8 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 
 final int BPM       = 120;
 final int ROOT_NOTE = 45;                       // 45 = A2 (MIDI note number)
-final int[] SCALE   = {0, 3, 5, 7, 10, 12, 15}; // A minor pentatonic: A C D E G A C
-// want all 7 notes of A minor instead? use {0, 2, 3, 5, 7, 8, 10}
+final int[] SCALE   = {0, 3, 5, 7, 10, 12, 15, 17, 19}; // A minor pentatonic: A C D E G A C D E
+// want all 7 notes of A minor instead? use {0, 2, 3, 5, 7, 8, 10, 12, 14}
 
 
 // ── YOUR SETTINGS ────────────────────────────
@@ -52,8 +52,8 @@ final int NOTE_OCTAVE = 0;   // -1 = lower (bass), 0 = middle, 1 = higher
 
 Sound master;
 SoundFile[] samples = new SoundFile[4];
-TriOsc[] voices = new TriOsc[7];
-Env[] envs = new Env[7];
+TriOsc[] voices = new TriOsc[SCALE.length];
+Env[] envs = new Env[SCALE.length];
 SinOsc clickOsc;
 Env clickEnv;
 
@@ -319,7 +319,7 @@ void keyReleased() {
 
 String keyToWord(char k) {
   if (k >= '1' && k <= '4') return "btn" + k;
-  int t = "asdfghj".indexOf(k);
+  int t = "asdfghjkl".indexOf(k);
   if (t >= 0) return "touch" + (t + 1);
   return null;
 }

@@ -29,7 +29,7 @@ Starter code for our IXD 360 Music Machine. Grab it, get sound coming out of you
 ## Try it with no board
 
 - Open `processing/starter_sketch/starter_sketch.pde` and hit Run
-- Keys **1 2 3 4** = drums, **a s d f g h j** = notes, arrows = knobs, **c** = click track
+- Keys **1 2 3 4** = drums, **a s d f g h j k l** = notes, arrows = knobs, **c** = click track
 - If you hear sound, your laptop's ready
 
 ## Hook up your board
