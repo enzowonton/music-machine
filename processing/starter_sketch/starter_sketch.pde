@@ -27,12 +27,13 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 
 // ── SHARED SETTINGS ──────────────────────────
 // these keep all our instruments playing together.
-// placeholders until the group locks tempo + key (Nov 25).
+// our tempo is 120 bpm and our key is A minor.
 // don't change them on your own, ask in Discord first.
 
-final int BPM       = 100;
-final int ROOT_NOTE = 48;                    // 48 = C3 (MIDI note number)
-final int[] SCALE   = {0, 3, 5, 7, 10, 12, 15}; // minor pentatonic, 7 notes
+final int BPM       = 120;
+final int ROOT_NOTE = 45;                       // 45 = A2 (MIDI note number)
+final int[] SCALE   = {0, 3, 5, 7, 10, 12, 15}; // A minor pentatonic: A C D E G A C
+// want all 7 notes of A minor instead? use {0, 2, 3, 5, 7, 8, 10}
 
 
 // ── YOUR SETTINGS ────────────────────────────
