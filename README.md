@@ -56,7 +56,11 @@ Board sends one line per thing that happened, at 115200:
 
 ## Shared settings
 
-Top of starter_sketch: **BPM, ROOT_NOTE, SCALE.** **Tempo is 120 bpm, key is A minor.** The touch notes use A minor pentatonic (A C D E G), which always sounds right in A minor. There's a line under it if you want all 7 notes. Don't change tempo or key on your own, ask in Discord so we all stay together.
+- **Tempo:** 120 bpm
+- **Key:** A minor
+- Already set at the top of starter_sketch (`BPM`, `ROOT_NOTE`, `SCALE`)
+- Touch notes use A minor pentatonic (A C D E G), which always sounds right in A minor. There's a line under it if you want all 7 notes.
+- Don't change tempo or key on your own, ask in Discord so we all stay together
 
 ## Stuck?
 
