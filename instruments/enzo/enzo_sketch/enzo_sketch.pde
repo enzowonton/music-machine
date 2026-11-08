@@ -7,10 +7,11 @@
 // USE them to play sound and draw visuals on your laptop
 //
 // Works with any of the board starters:
-//   btn1 .. btn4        ->  drum samples (data folder)
+//   btn1 .. btn4        ->  bass notes A, F, C, G, held as long as you hold  // CHANGED
+//                           (our chords are Am F C G, one per bar)
 //   touch1 .. touch9    ->  notes in our shared key
 //   knob1:0..100        ->  volume
-//   knob2:0..100        ->  pitch (samples) and octave (notes)
+//   knob2:0..100        ->  octave (low / middle / high)
 //
 // No board yet? It still runs. Use the keyboard:
 //   1 2 3 4             ->  btn1 .. btn4
@@ -46,10 +47,16 @@ final int[] SCALE   = {0, 3, 5, 7, 10, 12, 15, 17, 19}; // A minor pentatonic: A
 // look at the list printed in the console and put the number here.
 final int PORT_INDEX = -1;
 
-// sounds for btn1..btn4, files live in the data folder
+// drum sounds, files live in the data folder
+// (not on my buttons anymore, my buttons play bass. still here if I want them back)
 final String[] SAMPLE_FILES = {"kick.wav", "snare.wav", "hat.wav", "clap.wav"};
 
 final int NOTE_OCTAVE = -1;  // CHANGED: one octave down for bass
+
+// CHANGED: the bass note each button plays, following our chords Am F C G
+// (MIDI numbers: 45 = A2, 41 = F2, 48 = C3, 43 = G2)
+final int[] BASS_NOTES       = {45, 41, 48, 43};
+final String[] BASS_NAMES    = {"Am", "F", "C", "G"};
 
 
 // ── SOUND ────────────────────────────────────
@@ -62,6 +69,12 @@ Env[] envs = new Env[SCALE.length];
 float volume = 0.8;      // knob1
 float pitch = 1.0;       // knob2, for samples
 int octaveShift = 0;     // knob2, for notes
+
+// CHANGED: one bass voice that holds while the button is down
+TriOsc bass;
+float bassAmp = 0;       // how loud it is right now
+float bassTarget = 0;    // how loud it's heading (fades instead of clicking)
+int bassHeld = -1;       // which button is held, -1 = none
 
 
 // ── SERIAL ───────────────────────────────────
@@ -95,6 +108,9 @@ void setup() {
     voices[i] = new TriOsc(this);
     envs[i] = new Env(this);
   }
+  bass = new TriOsc(this);   // CHANGED
+  bass.amp(0);
+  bass.play();
 
   connectToBoard();
 }
@@ -107,9 +123,22 @@ void draw() {
     handleMessage(msg);
   }
 
+  // CHANGED: fade the bass in and out a little so it doesn't click
+  bassAmp += (bassTarget - bassAmp) * 0.35;
+  bass.amp(bassAmp * 0.7);
+
   // background with a soft trail
   fill(15, 15, 20, 50);
   rect(0, 0, width, height);
+
+  // CHANGED: show which chord the bass is on
+  if (bassHeld >= 0) {
+    fill(colorFor(bassHeld), 200);
+    textAlign(CENTER);
+    textSize(96);
+    text(BASS_NAMES[bassHeld], width / 2, height / 2 - 20);
+    textSize(12);
+  }
 
   for (int i = rings.size() - 1; i >= 0; i--) {
     Ring r = rings.get(i);
@@ -152,9 +181,14 @@ void handleMessage(String msg) {
 // ── USE: WORDS (buttons, touches) ────────────
 
 void handleWord(String word) {
-  if (word.startsWith("btn") && !word.endsWith("_up")) {
+  // CHANGED: buttons play held bass notes instead of drums
+  if (word.startsWith("btn") && word.endsWith("_up")) {
+    int i = int(word.substring(3, word.length() - 3)) - 1;
+    if (i == bassHeld) bassOff();
+  }
+  else if (word.startsWith("btn")) {
     int i = int(word.substring(3)) - 1;
-    if (i >= 0 && i < samples.length) playSample(i);
+    if (i >= 0 && i < BASS_NOTES.length) bassOn(i);
   }
   else if (word.startsWith("touch") && !word.endsWith("_up")) {
     int i = int(word.substring(5)) - 1;
@@ -195,6 +229,23 @@ void playSample(int i) {
   samples[i].play();
   rings.add(new Ring(random(100, width - 100), random(80, height - 160), colorFor(i)));
   sendToBoard("flash");
+}
+
+
+// CHANGED: start / stop the held bass note
+void bassOn(int i) {
+  int midi = BASS_NOTES[i] + 12 * octaveShift;
+  bass.freq(midiToFreq(midi));
+  bassTarget = 1;
+  bassHeld = i;
+  rings.add(new Ring(width / 2, height / 2 - 40, colorFor(i)));
+  sendToBoard("flash");
+}
+
+
+void bassOff() {
+  bassTarget = 0;
+  bassHeld = -1;
 }
 
 
