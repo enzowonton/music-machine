@@ -12,7 +12,7 @@ Starter code for our IXD 360 Music Machine. Grab it, get sound coming out of you
 - **board/touch_board** – turns fruit, foil, water, spoons, whatever, into keys (7 touch pins, no extra parts)
 - **board/led_starter** – LED that lights on a button, dims with a knob, and flashes when Processing plays a sound
 - **processing/starter_sketch** – plays drum samples on buttons, notes in our shared key on touches, knobs do volume + pitch. Runs with no board too, keyboard test mode.
-- **instruments/** – put your own copy here
+- **instruments/** – everyone's own folder, already set up. **Start here.**
 
 ## Set up once
 
@@ -41,10 +41,11 @@ Starter code for our IXD 360 Music Machine. Grab it, get sound coming out of you
 
 ## Make it yours
 
-- Copy a board folder and the sketch folder into `instruments/your-name/`
-- Rename the folder AND the file inside to match (Arduino and Processing both need that), like `enzo_bass/enzo_bass.ino`
-- Swap the sounds: drop your own .wav files in the sketch's `data` folder and change `SAMPLE_FILES`
+- **Your folder is already made:** `instruments/your-name/` has your own board file and sketch, ready to open
+- **See `instruments/enzo`** for an example of changing the starter
+- Swap the sounds: drop your own .wav files in your sketch's `data` folder and change `SAMPLE_FILES`
 - Add your own words: look for `ADD YOUR OWN HERE` in both files
+- How to get your code back on GitHub is in `instruments/README.md`
 
 ## Message format
 
