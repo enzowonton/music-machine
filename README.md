@@ -8,6 +8,28 @@ Starter code for our IXD 360 Music Machine. Grab it, get sound coming out of you
 
 **Goal for Tue Nov 10 (Code Checkpoint):** every player has a control making sound on their own laptop.
 
+## New to GitHub? Start here
+
+**What this page is:** a shared folder for our code, like a Google Drive folder. You're reading the README, the instructions for the folder. The list of folders and files is above this.
+
+**Get the code:**
+1. Click the green **Code** button near the top of this page
+2. Click **Download ZIP**
+3. Unzip it (double-click it on a Mac)
+
+**What to open:** only your own folder, `instruments/your-name/`. You'll get everyone's folders in the ZIP, and that's normal. Ignore the rest, and don't worry, changing your copy can't mess up anyone else's.
+
+**What's in your folder:**
+- `your-name_sketch/your-name_sketch.pde` – the laptop part. Open it in Processing and hit Run. No board needed to try it.
+- `your-name_board/your-name_board.ino` – the board part. Open it in Arduino IDE and upload it to your HUZZAH32.
+- `README.md` – fill in your instrument idea
+
+**Sending your code back:** send your files to Enzo on Discord. You don't need a GitHub account.
+
+**Getting updates:** if we post that the starter changed, download the ZIP again. Copy your own files out first so you don't lose your changes.
+
+**Just want to look?** Click any folder or file on this page to open it. Nothing you click here changes anything.
+
 ## What's in here
 
 - **board/starter_board** – 4 buttons + 2 knobs. Start here if you're not sure.
