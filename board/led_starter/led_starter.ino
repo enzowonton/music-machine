@@ -5,8 +5,8 @@
 // Three ways to light an LED, pick what you need:
 //   1. press a button       -> LED turns on (no laptop needed)
 //   2. turn a knob          -> LED gets brighter / dimmer
-//   3. RECEIVE from Processing -> LED flashes on every beat
-//      (starter_sketch sends "beat" each beat, or anything you tell it to)
+//   3. RECEIVE from Processing -> LED flashes every time a sound plays
+//      (starter_sketch sends "flash", or any word you tell it to)
 //
 // It also SENDS btn1 / knob1:57 like starter_board, so sound still works.
 // ─────────────────────────────────────────────
@@ -27,7 +27,7 @@ const bool USE_KNOB  = true;
 
 // ── SETTINGS ─────────────────────────────────
 
-const int FLASH_MS = 80;   // how long a beat flash lasts
+const int FLASH_MS = 80;   // how long a flash lasts
 
 
 // ── STATE ────────────────────────────────────
@@ -90,7 +90,7 @@ void receiveFromProcessing() {
     if (c == '\n') {
       incoming.trim();
       // USE: add your own words here, e.g. if (incoming == "drop") { ... }
-      if (incoming == "beat") {
+      if (incoming == "flash") {
         flashUntil = millis() + FLASH_MS;
       }
       incoming = "";

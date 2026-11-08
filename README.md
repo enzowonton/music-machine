@@ -10,7 +10,7 @@ Starter code for our IXD 360 Music Machine. Grab it, get sound coming out of you
 
 - **board/starter_board** – 4 buttons + 2 knobs. Start here if you're not sure.
 - **board/touch_board** – turns fruit, foil, water, spoons, whatever, into keys (7 touch pins, no extra parts)
-- **board/led_starter** – LED that lights on a button, dims with a knob, and flashes on the beat from Processing
+- **board/led_starter** – LED that lights on a button, dims with a knob, and flashes when Processing plays a sound
 - **processing/starter_sketch** – plays drum samples on buttons, notes in our shared key on touches, knobs do volume + pitch. Runs with no board too, keyboard test mode.
 - **instruments/** – put your own copy here
 
@@ -29,7 +29,7 @@ Starter code for our IXD 360 Music Machine. Grab it, get sound coming out of you
 ## Try it with no board
 
 - Open `processing/starter_sketch/starter_sketch.pde` and hit Run
-- Keys **1 2 3 4** = drums, **a s d f g h j k l** = notes, arrows = knobs, **c** = click track
+- Keys **1 2 3 4** = drums, **a s d f g h j k l** = notes, arrows = knobs
 - If you hear sound, your laptop's ready
 
 ## Hook up your board
@@ -52,13 +52,14 @@ Board sends one line per thing that happened, at 115200:
 - **Button / touch:** a word, like `btn1` or `touch3`. Let go sends `btn1_up`.
 - **Knob / sensor:** `name:value`, 0 to 100, like `knob1:57`
 - **More than one value:** comma separated, like `LR:40,UD:80`
-- **Laptop → board:** the sketch sends `beat` every beat (led_starter uses it)
+- **Laptop → board:** the sketch sends `flash` every time a sound plays (led_starter uses it)
 
 ## Shared settings
 
 - **Tempo:** 120 bpm
 - **Key:** A minor
 - Already set at the top of starter_sketch (`BPM`, `ROOT_NOTE`, `SCALE`)
+- To practice at 120, use a metronome app. For the show we'll need one shared click everyone hears, still figuring that out.
 - Touch notes use A minor pentatonic (A C D E G), which always sounds right in A minor. There's a line under it if you want all 7 notes.
 - Don't change tempo or key on your own, ask in Discord so we all stay together
 

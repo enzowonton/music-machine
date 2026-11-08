@@ -15,7 +15,9 @@
 //   1 2 3 4             ->  btn1 .. btn4
 //   a s d f g h j k l   ->  touch1 .. touch9
 //   up / down arrows    ->  knob1      left / right arrows -> knob2
-//   c                   ->  click track on / off
+//
+// Every time a sound plays it also sends "flash" back to the board
+// (led_starter flashes its LED on it).
 //
 // Needs the Sound library: Sketch > Import Library > Manage Libraries > "Sound"
 // ─────────────────────────────────────────────
@@ -29,6 +31,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 // these keep all our instruments playing together.
 // our tempo is 120 bpm and our key is A minor.
 // don't change them on your own, ask in Discord first.
+// (to practice at 120, use a metronome app. the show needs one shared click, still being figured out.)
 
 final int BPM       = 120;
 final int ROOT_NOTE = 45;                       // 45 = A2 (MIDI note number)
@@ -54,13 +57,10 @@ Sound master;
 SoundFile[] samples = new SoundFile[4];
 TriOsc[] voices = new TriOsc[SCALE.length];
 Env[] envs = new Env[SCALE.length];
-SinOsc clickOsc;
-Env clickEnv;
 
 float volume = 0.8;      // knob1
 float pitch = 1.0;       // knob2, for samples
 int octaveShift = 0;     // knob2, for notes
-boolean clickOn = false;
 
 
 // ── SERIAL ───────────────────────────────────
@@ -71,13 +71,10 @@ String portName = "";
 ConcurrentLinkedQueue<String> inbox = new ConcurrentLinkedQueue<String>();
 
 
-// ── VISUALS + TIMING ─────────────────────────
+// ── VISUALS ──────────────────────────────────
 
 ArrayList<Ring> rings = new ArrayList<Ring>();
 ArrayList<String> recent = new ArrayList<String>();
-int beatCount = 0;
-float nextBeatAt = 0;
-float beatFlash = 0;
 float knob1Shown = 80, knob2Shown = 50;
 boolean[] keysDown = new boolean[256];
 
@@ -97,11 +94,8 @@ void setup() {
     voices[i] = new TriOsc(this);
     envs[i] = new Env(this);
   }
-  clickOsc = new SinOsc(this);
-  clickEnv = new Env(this);
 
   connectToBoard();
-  nextBeatAt = millis();
 }
 
 
@@ -111,8 +105,6 @@ void draw() {
   while ((msg = inbox.poll()) != null) {
     handleMessage(msg);
   }
-
-  keepTime();
 
   // background with a soft trail
   fill(15, 15, 20, 50);
@@ -201,6 +193,7 @@ void playSample(int i) {
   samples[i].rate(pitch);
   samples[i].play();
   rings.add(new Ring(random(100, width - 100), random(80, height - 160), colorFor(i)));
+  sendToBoard("flash");
 }
 
 
@@ -211,6 +204,7 @@ void playNote(int i) {
   envs[i].play(voices[i], 0.01, 0.15, 0.5, 0.4);
   float x = map(i, 0, SCALE.length - 1, 120, width - 120);
   rings.add(new Ring(x, height / 2 - 40, colorFor(4 + i)));
+  sendToBoard("flash");
 }
 
 
@@ -219,29 +213,8 @@ float midiToFreq(int midi) {
 }
 
 
-// ── TEMPO ────────────────────────────────────
-// keeps the beat even if nothing is playing.
-// sends "beat" to the board (led_starter flashes on it).
-
-void keepTime() {
-  float beatMs = 60000.0 / BPM;
-  if (millis() >= nextBeatAt) {
-    beatCount++;
-    beatFlash = 255;
-    nextBeatAt += beatMs;
-    if (millis() > nextBeatAt) nextBeatAt = millis() + beatMs;  // catch up after a pause
-
-    if (clickOn) {
-      clickOsc.freq(beatCount % 4 == 1 ? 1500 : 1000);   // higher on beat 1
-      clickEnv.play(clickOsc, 0.001, 0.02, 0.3, 0.03);
-    }
-    sendToBoard("beat");
-  }
-  beatFlash *= 0.85;
-}
-
-
 // ── SEND (laptop -> board) ───────────────────
+// send any word you want, then handle it in the board's RECEIVE section
 
 void sendToBoard(String word) {
   if (port != null) port.write(word + "\n");
@@ -305,7 +278,6 @@ void keyPressed() {
 
   String w = keyToWord(key);
   if (w != null) handleMessage(w);
-  if (key == 'c') clickOn = !clickOn;
 }
 
 
@@ -352,7 +324,7 @@ void drawStatus() {
   textAlign(LEFT);
   String status = port != null ? "board: " + portName : "no board: keyboard test mode";
   text(status, 20, height - 85);
-  text(BPM + " bpm   click " + (clickOn ? "on" : "off") + " (c)", 20, height - 65);
+  text(BPM + " bpm   A minor", 20, height - 65);
 
   // knobs
   text("knob1 volume", 20, height - 40);
@@ -368,10 +340,6 @@ void drawStatus() {
   for (int i = 0; i < recent.size(); i++) {
     text(recent.get(i), width - 20, height - 100 + i * 12);
   }
-
-  // beat light
-  fill(255, 255, 255, beatFlash);
-  ellipse(width - 30, 30, 18, 18);
 }
 
 
