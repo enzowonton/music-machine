@@ -1,8 +1,8 @@
 # Z's instrument
 
-**Part:** Melody: harp-like instrument (first guess from Sandi's notes, change it if you want)
+**Part:** Melody (from the pitch deck, change it if it changes)
 
-**Instrument idea:**
+**Instrument idea:** TBD
 
 **Controls:**
 

@@ -1,8 +1,8 @@
 # Sunni's instrument
 
-**Part:** Melody: vocal samples (first guess from Sandi's notes, change it if you want)
+**Part:** Melody (from the pitch deck, change it if it changes)
 
-**Instrument idea:**
+**Instrument idea:** mini harp, held upright
 
 **Controls:**
 

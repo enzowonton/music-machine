@@ -1,8 +1,8 @@
 # Therese's instrument
 
-**Part:** Texture: food instrument (first guess from Sandi's notes, change it if you want)
+**Part:** Texture (from the pitch deck, change it if it changes)
 
-**Instrument idea:**
+**Instrument idea:** food instrument, touch bananas or fruit to play notes
 
 **Controls:**
 

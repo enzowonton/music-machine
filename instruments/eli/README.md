@@ -1,8 +1,8 @@
 # Eli's instrument
 
-**Part:** Melody or texture: water and analog parts (first guess from Sandi's notes, change it if you want)
+**Part:** Melody or texture (from the pitch deck, change it if it changes)
 
-**Instrument idea:**
+**Instrument idea:** hologram something?
 
 **Controls:**
 

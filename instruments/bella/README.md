@@ -1,8 +1,8 @@
 # Bella's instrument
 
-**Part:** Rhythm: drums (first guess from Sandi's notes, change it if you want)
+**Part:** Rhythm (from the pitch deck, change it if it changes)
 
-**Instrument idea:**
+**Instrument idea:** TBD
 
 **Controls:**
 

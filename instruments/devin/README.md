@@ -1,8 +1,8 @@
 # Devin's instrument
 
-**Part:** Bass or brass-style hits (first guess from Sandi's notes, change it if you want)
+**Part:** Bass (from the pitch deck, change it if it changes)
 
-**Instrument idea:**
+**Instrument idea:** TBD
 
 **Controls:**
 

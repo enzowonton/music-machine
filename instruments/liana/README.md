@@ -1,8 +1,8 @@
 # Liana's instrument
 
-**Part:** Melody: guitar (first guess from Sandi's notes, change it if you want)
+**Part:** Melody (from the pitch deck, change it if it changes)
 
-**Instrument idea:**
+**Instrument idea:** real guitar, plus her own build (TBD)
 
 **Controls:**
 

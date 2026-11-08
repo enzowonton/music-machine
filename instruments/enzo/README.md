@@ -2,7 +2,7 @@
 
 **Part:** bass
 
-**Instrument idea:** still figuring it out
+**Instrument idea:** synth keys or beat box on a table, pads or buttons trigger sound (undecided)
 
 **Controls:** starter setup for now (4 buttons, 2 knobs), a s d f g h j k l on the keyboard to test
 

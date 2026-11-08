@@ -1,8 +1,8 @@
 # Rafael's instrument
 
-**Part:** Texture: the robot (first guess from Sandi's notes, change it if you want)
+**Part:** Texture (from the pitch deck, change it if it changes)
 
-**Instrument idea:**
+**Instrument idea:** AI robot that uses AI to make music
 
 **Controls:**
 
