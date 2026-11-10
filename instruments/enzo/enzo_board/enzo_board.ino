@@ -10,6 +10,8 @@
 //   button let go    ->  btn1_up
 //   knob turned      ->  knob1:57      (0 to 100)
 //
+// RECEIVE "flash" from Processing -> LED blinks   // CHANGED
+//
 // Processing (starter_sketch) RECEIVES these and USES them to play sound.
 // ─────────────────────────────────────────────
 
@@ -29,9 +31,18 @@ const char* BUTTON_NAMES[NUM_BUTTONS]       = {"btn1", "btn2", "btn3", "btn4"};
 // heads up: a knob pin with nothing plugged in sends random numbers.
 // if you don't have knobs yet, set NUM_KNOBS to 0.
 
-const int NUM_KNOBS = 2;
-const int KNOB_PINS[]                       = {A2, A3};
-const char* KNOB_NAMES[]                    = {"knob1", "knob2"};
+// CHANGED: one slider (slide pot) on A2 = volume
+const int NUM_KNOBS = 1;
+const int KNOB_PINS[]                       = {A2};
+const char* KNOB_NAMES[]                    = {"knob1"};
+
+
+// ── LED ── CHANGED ───────────────────────────
+// long leg -> 220 ohm resistor -> pin 21, short leg -> GND
+// lights while you hold a key, and blinks when Processing sends "flash"
+
+const int LED_PIN  = 21;
+const int FLASH_MS = 80;
 
 
 // ── SETTINGS ─────────────────────────────────
@@ -45,6 +56,8 @@ const int KNOB_STEP    = 2;   // only send a knob when it moves at least this mu
 bool lastPressed[NUM_BUTTONS];
 unsigned long lastChange[NUM_BUTTONS];
 int lastKnob[8];
+unsigned long flashUntil = 0;   // CHANGED
+String incoming = "";           // CHANGED
 
 
 void setup() {
@@ -59,12 +72,16 @@ void setup() {
   for (int i = 0; i < NUM_KNOBS; i++) {
     lastKnob[i] = -100;  // forces every knob to send once at startup
   }
+
+  pinMode(LED_PIN, OUTPUT);  // CHANGED
 }
 
 
 void loop() {
   readButtons();
   readKnobs();
+  receiveFromProcessing();  // CHANGED
+  updateLed();              // CHANGED
   delay(5);
 }
 
@@ -110,4 +127,26 @@ void readKnobs() {
       Serial.println(value);
     }
   }
+}
+
+
+// ── RECEIVE + LIGHT: LED ── CHANGED ──────────
+
+void receiveFromProcessing() {
+  while (Serial.available() > 0) {
+    char c = Serial.read();
+    if (c == '\n') {
+      incoming.trim();
+      if (incoming == "flash") flashUntil = millis() + FLASH_MS;
+      incoming = "";
+    } else {
+      incoming += c;
+    }
+  }
+}
+
+void updateLed() {
+  bool anyHeld = false;
+  for (int i = 0; i < NUM_BUTTONS; i++) if (lastPressed[i]) anyHeld = true;
+  digitalWrite(LED_PIN, (anyHeld || millis() < flashUntil) ? HIGH : LOW);
 }
