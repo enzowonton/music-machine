@@ -74,6 +74,12 @@ void setup() {
   }
 
   pinMode(LED_PIN, OUTPUT);  // CHANGED
+
+  // CHANGED: LED blinks 3 times at startup so you know it's wired right
+  for (int i = 0; i < 3; i++) {
+    digitalWrite(LED_PIN, HIGH); delay(200);
+    digitalWrite(LED_PIN, LOW);  delay(200);
+  }
 }
 
 
