@@ -20,9 +20,12 @@
 // wire each button: one leg to the pin, the other leg to GND
 // (no resistor needed, the board's built-in pullup handles it)
 
-const int NUM_BUTTONS = 4;
-const int BUTTON_PINS[NUM_BUTTONS]          = {14, 32, 15, 33};
-const char* BUTTON_NAMES[NUM_BUTTONS]       = {"btn1", "btn2", "btn3", "btn4"};
+// CHANGED: 8 keys. 1-4 = bass (A F C G), 5-8 = higher melody notes
+const int NUM_BUTTONS = 8;
+const int BUTTON_PINS[NUM_BUTTONS]          = {14, 32, 15, 33, 27, 26, 25, 4};
+//                                                              27 = top edge, 26 = A0, 25 = A1, 4 = A5
+const char* BUTTON_NAMES[NUM_BUTTONS]       = {"btn1", "btn2", "btn3", "btn4",
+                                               "btn5", "btn6", "btn7", "btn8"};
 
 
 // ── KNOBS ────────────────────────────────────
@@ -31,10 +34,10 @@ const char* BUTTON_NAMES[NUM_BUTTONS]       = {"btn1", "btn2", "btn3", "btn4"};
 // heads up: a knob pin with nothing plugged in sends random numbers.
 // if you don't have knobs yet, set NUM_KNOBS to 0.
 
-// CHANGED: one slider (slide pot) on A2 = volume
-const int NUM_KNOBS = 1;
-const int KNOB_PINS[]                       = {A2};
-const char* KNOB_NAMES[]                    = {"knob1"};
+// CHANGED: slider on A2 = volume (knob1), dial on A3 = pitch (knob2)
+const int NUM_KNOBS = 2;
+const int KNOB_PINS[]                       = {A2, A3};
+const char* KNOB_NAMES[]                    = {"knob1", "knob2"};
 
 
 // ── LED ── CHANGED ───────────────────────────

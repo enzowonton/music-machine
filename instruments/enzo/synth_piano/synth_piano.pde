@@ -7,14 +7,17 @@
 //
 // From the board:
 //   btn1 .. btn4     ->  bass notes A, F, C, G (our chords Am F C G)
-//                        the note holds as long as you hold the key
+//   btn5 .. btn8     ->  higher melody notes A, C, D, E
+//                        every note holds as long as you hold the key
 //   knob1:0..100     ->  volume (the slider)
+//   knob2:0..100     ->  pitch (the dial): middle = in tune,
+//                        turn left = lower, right = higher (up to 1 octave)
 // To the board:
 //   flash            ->  LED blinks on every new note
 //
 // No board plugged in? It still runs. Use the keyboard:
-//   1 2 3 4          ->  the 4 keys
-//   up / down        ->  volume
+//   1 .. 8           ->  the 8 keys
+//   up / down        ->  volume      left / right  ->  pitch dial
 //
 // Needs the Sound library: Sketch > Import Library > Manage Libraries > "Sound"
 // ─────────────────────────────────────────────
@@ -31,10 +34,18 @@ final int BPM = 120;   // our tempo, A minor
 
 // ── YOUR SETTINGS ────────────────────────────
 
-// the 4 keys, left to right. MIDI numbers: 45 = A2, 41 = F2, 48 = C3, 43 = G2
-final int[]    KEY_NOTES  = {45, 41, 48, 43};
-final String[] KEY_LABELS = {"A", "F", "C", "G"};
-final String[] KEY_CHORDS = {"Am", "F", "C", "G"};
+// the 8 keys, left to right.
+// 1-4 bass, MIDI numbers: 45 = A2, 41 = F2, 48 = C3, 43 = G2
+// 5-8 melody (A minor pentatonic, an octave up): 57 = A3, 60 = C4, 62 = D4, 64 = E4
+final int NUM_KEYS = 8;
+final int[]    KEY_NOTES  = {45, 41, 48, 43, 57, 60, 62, 64};
+final String[] KEY_LABELS = {"A", "F", "C", "G", "A", "C", "D", "E"};
+final String[] KEY_CHORDS = {"Am", "F", "C", "G", "", "", "", ""};   // chord names show for bass keys
+
+// pitch dial: how far it bends at each end, in semitones (12 = one octave)
+final float BEND_RANGE = 12;
+// around the middle the dial snaps to perfectly in tune, so you can find "normal" easily
+final float DIAL_DEADZONE = 6;     // in dial units (0-100)
 
 // how bright the synth sounds: lower = darker / rounder, higher = buzzier
 final float FILTER_CUTOFF = 900;   // try 400 to 3000
@@ -62,8 +73,11 @@ float volume = 0.8;     // slider
 float amp = 0;          // how loud the note is right now
 float ampTarget = 0;    // where it's fading to
 float currentFreq = 110;
+int currentMidi = 45;
+float bend = 0;          // semitones from the pitch dial
+float bendSmooth = 0;    // eases toward bend so turning sounds smooth
 
-boolean[] held = new boolean[4];   // which keys are down
+boolean[] held = new boolean[NUM_KEYS];   // which keys are down
 int playing = -1;                   // which key is sounding, -1 = none
 
 
@@ -76,8 +90,9 @@ ConcurrentLinkedQueue<String> inbox = new ConcurrentLinkedQueue<String>();
 
 // ── VISUALS ──────────────────────────────────
 
-float[] glow = new float[4];       // each key's light, fades out after you let go
+float[] glow = new float[NUM_KEYS];       // each key's light, fades out after you let go
 float volumeShown = 80;
+float dialShown = 50;
 float wavePhase = 0;
 ArrayList<Ripple> ripples = new ArrayList<Ripple>();
 color[] keyColors;
@@ -92,7 +107,11 @@ void setup() {
     color(255, 160, 40),   // A  amber
     color(40, 200, 130),   // F  green
     color(80, 140, 255),   // C  blue
-    color(220, 90, 220)    // G  pink
+    color(220, 90, 220),   // G  pink
+    color(255, 110, 90),   // melody A  coral
+    color(120, 220, 230),  // melody C  aqua
+    color(250, 220, 90),   // melody D  yellow
+    color(170, 140, 255)   // melody E  lavender
   };
 
   master = new Sound(this);
@@ -123,7 +142,11 @@ void draw() {
   buzz2.amp(amp * 0.12);
   sub.amp(amp * SUB_LEVEL * 0.5);
 
-  for (int i = 0; i < 4; i++) {
+  // pitch dial: glide toward the dial's bend and retune the note
+  bendSmooth += (bend - bendSmooth) * 0.25;
+  setPitch();
+
+  for (int i = 0; i < NUM_KEYS; i++) {
     if (held[i]) glow[i] = 1;
     else glow[i] *= 0.9;
   }
@@ -166,7 +189,7 @@ void handleWord(String word) {
   boolean up = word.endsWith("_up");
   String num = up ? word.substring(3, word.length() - 3) : word.substring(3);
   int i = int(num) - 1;
-  if (i < 0 || i >= 4) return;
+  if (i < 0 || i >= NUM_KEYS) return;
 
   if (!up) {
     held[i] = true;
@@ -184,12 +207,12 @@ void handleWord(String word) {
 
 
 int lastHeldKey() {
-  for (int i = 3; i >= 0; i--) if (held[i]) return i;
+  for (int i = NUM_KEYS - 1; i >= 0; i--) if (held[i]) return i;
   return -1;
 }
 
 
-// ── USE: SLIDER ──────────────────────────────
+// ── USE: SLIDER + DIAL ───────────────────────
 
 void handleValue(String name, float value) {
   if (Float.isNaN(value)) return;
@@ -198,16 +221,20 @@ void handleValue(String name, float value) {
     volume = value / 100.0;
     master.volume(volume);
   }
+  else if (name.equals("knob2")) {
+    dialShown = value;
+    float off = value - 50;
+    if (abs(off) <= DIAL_DEADZONE) bend = 0;
+    else bend = map(abs(off), DIAL_DEADZONE, 50, 0, BEND_RANGE) * (off < 0 ? -1 : 1);
+  }
 }
 
 
 // ── SOUND ────────────────────────────────────
 
 void noteOn(int i) {
-  currentFreq = midiToFreq(KEY_NOTES[i]);
-  buzz.freq(currentFreq);
-  buzz2.freq(currentFreq * 1.006);   // slight detune = thicker sound
-  sub.freq(currentFreq / 2);
+  currentMidi = KEY_NOTES[i];
+  setPitch();
   ampTarget = 1;
   playing = i;
 
@@ -222,8 +249,12 @@ void noteOff() {
 }
 
 
-float midiToFreq(int midi) {
-  return 440 * pow(2, (midi - 69) / 12.0);
+// the note's pitch plus whatever the dial adds
+void setPitch() {
+  currentFreq = 440 * pow(2, (currentMidi + bendSmooth - 69) / 12.0);
+  buzz.freq(currentFreq);
+  buzz2.freq(currentFreq * 1.006);   // slight detune = thicker sound
+  sub.freq(currentFreq / 2);
 }
 
 
@@ -237,8 +268,8 @@ void sendToBoard(String word) {
 // ── SCREEN ───────────────────────────────────
 
 // layout of the 4 big keys
-float keysLeft()     { return 140; }
-float keyWidth()     { return (width - 280) / 4.0; }
+float keysLeft()     { return 60; }
+float keyWidth()     { return (width - 120) / (float) NUM_KEYS; }
 float keyTopY()      { return 300; }
 float keyHeight()    { return 230; }
 float keyCenterX(int i) { return keysLeft() + keyWidth() * i + keyWidth() / 2; }
@@ -248,7 +279,7 @@ float keyCenterX(int i) { return keysLeft() + keyWidth() * i + keyWidth() / 2; }
 void drawWave() {
   color c = playing >= 0 ? keyColors[playing] : color(90, 90, 110);
   float level = max(amp, 0.04);
-  float cycles = map(currentFreq, 80, 140, 3, 6);   // higher note = tighter wave
+  float cycles = constrain(map(currentFreq, 50, 400, 2.5, 9), 2, 10);   // higher note = tighter wave
   wavePhase += 0.04 + amp * 0.06;
 
   noFill();
@@ -270,7 +301,8 @@ void drawWave() {
 // the chord progression, current chord lit up
 void drawChordRow() {
   textAlign(CENTER, CENTER);
-  for (int i = 0; i < 4; i++) {
+  for (int i = 0; i < NUM_KEYS; i++) {
+    if (KEY_CHORDS[i].length() == 0) continue;
     float x = keyCenterX(i);
     boolean on = (i == playing);
     fill(on ? keyColors[i] : color(255, 40));
@@ -281,9 +313,17 @@ void drawChordRow() {
 
 
 void drawKeys() {
-  for (int i = 0; i < 4; i++) {
-    float x = keysLeft() + keyWidth() * i + 8;
-    float w = keyWidth() - 16;
+  // labels over the two groups
+  textAlign(CENTER, CENTER);
+  textSize(12);
+  fill(255, 90);
+  text("BASS", keysLeft() + keyWidth() * 2, keyTopY() - 18);
+  text("MELODY", keysLeft() + keyWidth() * 6, keyTopY() - 18);
+
+  for (int i = 0; i < NUM_KEYS; i++) {
+    float gap = (i == 4) ? 18 : 0;   // small gap between bass and melody keys
+    float x = keysLeft() + keyWidth() * i + 6 + gap * 0.5;
+    float w = keyWidth() - 12 - gap * 0.5;
     float y = keyTopY();
     float h = keyHeight();
     float g = glow[i];
@@ -307,11 +347,11 @@ void drawKeys() {
     // label
     fill(lerpColor(color(40, 40, 50), color(255), g));
     textAlign(CENTER, CENTER);
-    textSize(54);
+    textSize(44);
     text(KEY_LABELS[i], x + w / 2, y + h / 2 - 10 + press);
     textSize(14);
     fill(lerpColor(color(110), color(255, 220), g));
-    text("key " + (i + 1), x + w / 2, y + h - 32 + press);
+    text("" + (i + 1), x + w / 2, y + h - 32 + press);
   }
 }
 
@@ -330,17 +370,29 @@ void drawStatus() {
   textAlign(LEFT, CENTER);
   textSize(13);
   fill(255, 150);
-  String status = port != null ? "board: " + portName : "no board, keyboard mode (1-4 keys, up/down volume)";
+  String status = port != null ? "board: " + portName : "no board, keyboard mode (1-8 keys, up/down volume, left/right pitch)";
   text(status, 40, height - 40);
   text(BPM + " bpm  ·  A minor  ·  hold one key per bar", 40, height - 20);
 
   // volume slider readout
   textAlign(RIGHT, CENTER);
-  text("volume", width - 250, height - 30);
+  fill(255, 150);
+  text("volume", width - 250, height - 46);
   fill(255, 30);
-  rect(width - 230, height - 36, 190, 12, 6);
+  rect(width - 230, height - 52, 190, 12, 6);
   fill(255, 200);
-  rect(width - 230, height - 36, 190 * volumeShown / 100.0, 12, 6);
+  rect(width - 230, height - 52, 190 * volumeShown / 100.0, 12, 6);
+
+  // pitch dial readout: center line = in tune
+  fill(255, 150);
+  String b = abs(bend) < 0.05 ? "in tune" : nf(bend, 0, 1) + " st";
+  text("pitch  " + b, width - 250, height - 22);
+  fill(255, 30);
+  rect(width - 230, height - 28, 190, 12, 6);
+  fill(255, 120);
+  rect(width - 136, height - 31, 2, 18);
+  fill(abs(bend) < 0.05 ? color(120, 230, 160) : color(255, 200));
+  ellipse(width - 230 + 190 * dialShown / 100.0, height - 22, 14, 14);
 }
 
 
@@ -392,17 +444,19 @@ void keyPressed() {
   if (key == CODED) {
     if (keyCode == UP)   handleMessage("knob1:" + int(constrain(volumeShown + 5, 0, 100)));
     if (keyCode == DOWN) handleMessage("knob1:" + int(constrain(volumeShown - 5, 0, 100)));
+    if (keyCode == RIGHT) handleMessage("knob2:" + int(constrain(dialShown + 5, 0, 100)));
+    if (keyCode == LEFT)  handleMessage("knob2:" + int(constrain(dialShown - 5, 0, 100)));
     return;
   }
   if (key >= 256 || keysDown[key]) return;   // ignore key repeat
   keysDown[key] = true;
-  if (key >= '1' && key <= '4') handleMessage("btn" + key);
+  if (key >= '1' && key <= '8') handleMessage("btn" + key);
 }
 
 void keyReleased() {
   if (key == CODED || key >= 256) return;
   keysDown[key] = false;
-  if (key >= '1' && key <= '4') handleMessage("btn" + key + "_up");
+  if (key >= '1' && key <= '8') handleMessage("btn" + key + "_up");
 }
 
 
