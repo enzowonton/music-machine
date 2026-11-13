@@ -82,12 +82,12 @@ Board sends one line per thing that happened, at 115200:
 
 ## Shared settings
 
-- **Tempo:** 120 bpm
-- **Key:** A minor
-- **Chords:** Am, F, C, G, one chord per bar. Calm parts use half-time drums.
+- **Tempo:** 125 bpm (same as "Chase" by Giorgio Moroder)
+- **Key:** C minor
+- **Chords:** not set yet, we will add them once the song is figured out. Calm parts use half-time drums.
 - Already set at the top of starter_sketch (`BPM`, `ROOT_NOTE`, `SCALE`)
-- To practice at 120, use a metronome app. For the show we'll need one shared click everyone hears, still figuring that out.
-- Touch notes use A minor pentatonic (A C D E G), which always sounds right in A minor. There's a line under it if you want all 7 notes.
+- To practice at 125, use a metronome app. For the show we'll need one shared click everyone hears, still figuring that out.
+- Touch notes use C minor pentatonic (C Eb F G Bb), which always sounds right in C minor. There's a line under it if you want all 7 notes.
 - Don't change tempo or key on your own, ask in Discord so we all stay together
 
 ## Sensors

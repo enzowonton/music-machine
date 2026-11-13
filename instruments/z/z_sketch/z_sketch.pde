@@ -29,14 +29,14 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 
 // ── SHARED SETTINGS ──────────────────────────
 // these keep all our instruments playing together.
-// our tempo is 120 bpm and our key is A minor.
+// our tempo is 125 bpm and our key is C minor (same as "Chase" by Giorgio Moroder).
 // don't change them on your own, ask in Discord first.
-// (to practice at 120, use a metronome app. the show needs one shared click, still being figured out.)
+// (to practice at 125, use a metronome app. the show needs one shared click, still being figured out.)
 
-final int BPM       = 120;
-final int ROOT_NOTE = 45;                       // 45 = A2 (MIDI note number)
-final int[] SCALE   = {0, 3, 5, 7, 10, 12, 15, 17, 19}; // A minor pentatonic: A C D E G A C D E
-// want all 7 notes of A minor instead? use {0, 2, 3, 5, 7, 8, 10, 12, 14}
+final int BPM       = 125;
+final int ROOT_NOTE = 48;                       // 48 = C3 (MIDI note number)
+final int[] SCALE   = {0, 3, 5, 7, 10, 12, 15, 17, 19}; // C minor pentatonic: C Eb F G Bb C Eb F G
+// want all 7 notes of C minor instead? use {0, 2, 3, 5, 7, 8, 10, 12, 14}
 
 
 // ── YOUR SETTINGS ────────────────────────────
@@ -324,7 +324,7 @@ void drawStatus() {
   textAlign(LEFT);
   String status = port != null ? "board: " + portName : "no board: keyboard test mode";
   text(status, 20, height - 85);
-  text(BPM + " bpm   A minor", 20, height - 65);
+  text(BPM + " bpm   C minor", 20, height - 65);
 
   // knobs
   text("knob1 volume", 20, height - 40);

@@ -29,7 +29,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 
 // ── SHARED SETTINGS (ask in Discord before changing) ──
 
-final int BPM = 120;   // our tempo, A minor
+final int BPM = 125;   // our tempo (key is C minor, these bass notes are still the old A minor ones)
 
 
 // ── YOUR SETTINGS ────────────────────────────
