@@ -84,11 +84,27 @@ Board sends one line per thing that happened, at 115200:
 
 - **Tempo:** 125 bpm (same as "Chase" by Giorgio Moroder)
 - **Key:** C minor
-- **Chords:** not set yet, we will add them once the song is figured out. Calm parts use half-time drums.
+- **Chords:** see "Song" below (Sandi's Chase sketch). Calm parts use half-time drums.
 - Already set at the top of starter_sketch (`BPM`, `ROOT_NOTE`, `SCALE`)
 - To practice at 125, use a metronome app. For the show we'll need one shared click everyone hears, still figuring that out.
 - Touch notes use C minor pentatonic (C Eb F G Bb), which always sounds right in C minor. There's a line under it if you want all 7 notes.
 - Don't change tempo or key on your own, ask in Discord so we all stay together
+
+## Song
+
+Sandi's sketch of "Chase" (Giorgio Moroder) is in `score/chase_strudel.js`. To hear it, paste the whole file into [strudel.cc](https://strudel.cc) and press Ctrl+Enter. Put `//` in front of a part to mute it so you can hear each one alone.
+
+Who plays which part isn't decided yet. Once it is, your sketch gets your notes. For now here's what each part plays (125 bpm, C minor, 1 bar = 4 beats):
+
+| Part | Length | Notes |
+|---|---|---|
+| Bass pulse (whole song) | 2 bars, 8th notes | Bar 1: Bb C C C Bb C Eb C · Bar 2: F G G G F G Bb G |
+| Drums | 2 bars | Kick on 1, 3 and the "and" of 3 · snare on 2 and 4 · fast 16th hi-hats · open hat at the end of bar 2 |
+| Pluck arp | 4 bars, 16th notes | One note per bar, repeated fast: C, D, Eb, D |
+| Pad chords (held) | 4 bars, 1 chord per bar | G+C · G+D · G+C+Eb · G+Bb+D |
+| Lead melody | 8 bars | The main hook, played 3 times with a different ending each time. Notes are in the file. |
+
+All the notes are in C minor: C D Eb F G Ab Bb.
 
 ## Sensors
 
