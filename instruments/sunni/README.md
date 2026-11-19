@@ -1,12 +1,23 @@
 # Sunni's instrument
 
-**Part:** Melody (from the pitch deck, change it if it changes)
+**Part:** Lead melody, bars 1–2 (call + first answer)
 
 **Instrument idea:** mini harp, held upright
 
 **Controls:**
 
 **Sounds:**
+
+## Your part in the song
+
+From `score/chase_strudel.js` (125 bpm, C minor).
+
+You open the lead. The call, then the first answer: Eb C D Bb C D Eb F, then G, high D, Bb. Zitlali plays these same notes later (bars 5–6) with a different sound.
+
+```js
+// 5. LEAD CALL + ANSWER (bars 1–2)
+note("<[d#5 ~ c5 ~ d5 ~ a#4 c5@3 d5@2 d#5 ~ f5 ~] [g5 ~ d6@3 ~ a#5@7 ~ ~ ~]>").s("sawtooth").lpf(2500).gain(0.6)
+```
 
 ## Your files
 

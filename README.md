@@ -103,7 +103,10 @@ Here's who plays what so far (125 bpm, C minor, 1 bar = 4 beats). Your line from
 | Drums: hi-hats | Daniel | 2 bars | Fast 16th closed hats · open hat at the end of bar 2 |
 | Pluck arp | Enzo | 4 bars, 16th notes | One note per bar, repeated fast: C, D, Eb, D |
 | Pad chords (held) | not picked yet | 4 bars, 1 chord per bar | G+C · G+D · G+C+Eb · G+Bb+D |
-| Lead melody | not picked yet | 8 bars | The main hook, played 3 times with a different ending each time. Notes are in the file. |
+| Lead melody, bars 1–2 (call + answer 1) | Sunni | 2 bars | Eb C D Bb C D Eb F · G D Bb |
+| Lead melody, bars 3–4 (call + answer 2) | Liana | 2 bars | Eb C D Bb C D Eb F · G Bb F |
+| Lead melody, bars 5–6 (call + answer 3) | Zitlali | 2 bars | Same notes as Sunni, with a different sound |
+| Lead melody, bars 7–8 (ending) | Therese | 2 bars + pickup | C D pickup at the end of bar 6, then Eb D C D C Bb · C G F |
 
 All the notes are in C minor: C D Eb F G Ab Bb.
 
