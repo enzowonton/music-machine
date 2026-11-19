@@ -1,12 +1,23 @@
 # Bella's instrument
 
-**Part:** Rhythm (from the pitch deck, change it if it changes)
+**Part:** Drums: kick + snare
 
 **Instrument idea:** TBD
 
 **Controls:**
 
 **Sounds:**
+
+## Your part in the song
+
+From `score/chase_strudel.js` (125 bpm, C minor).
+
+Kick on 1, 3 and the "and" of 3, snare on 2 and 4. 2 bars, loops.
+
+```js
+// 2. DRUMS (kick + snare layers)
+s("<[bd ~ ~ ~ bd bd ~ ~] [bd ~ ~ ~ bd bd ~ ~]>, ~ ~ sd ~ ~ ~ sd ~")
+```
 
 ## Your files
 

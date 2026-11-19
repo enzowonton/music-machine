@@ -1,12 +1,23 @@
 # Enzo's instrument
 
-**Part:** bass
+**Part:** Pluck arp
 
 **Instrument idea:** little synth piano: 4 button keys play the bass, a slider sets volume, an LED lights while a key is held
 
 **Controls:** 4 buttons (pins 14, 32, 15, 33) play the bass notes for our chords, 1 slide pot on A2 = volume, LED on pin 21 (220 ohm). Keyboard to test: 1 2 3 4 for bass, a–l for higher notes
 
 **Sounds:** held bass notes on A, F, C, G (our chords are Am F C G)
+
+## My part in the song
+
+From `score/chase_strudel.js` (125 bpm, C minor).
+
+One note per bar repeated in 16ths: C, D, Eb, D. 4 bars, loops. Played on `synth_piano`: hold key 1, 2, 3, 2 for one bar each.
+
+```js
+// 3. PLUCK ARP
+note("<[c5*16] [d5*16] [d#5*16] [d5*16]>").s("square").lpf(2000).decay(0.08).sustain(0)
+```
 
 ## What I changed from the starter
 

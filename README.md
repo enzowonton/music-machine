@@ -94,15 +94,16 @@ Board sends one line per thing that happened, at 115200:
 
 Sandi's sketch of "Chase" (Giorgio Moroder) is in `score/chase_strudel.js`. To hear it, paste the whole file into [strudel.cc](https://strudel.cc) and press Ctrl+Enter. Put `//` in front of a part to mute it so you can hear each one alone.
 
-Who plays which part isn't decided yet. Once it is, your sketch gets your notes. For now here's what each part plays (125 bpm, C minor, 1 bar = 4 beats):
+Here's who plays what so far (125 bpm, C minor, 1 bar = 4 beats). Your line from the strudel file is in your own folder's README.
 
-| Part | Length | Notes |
-|---|---|---|
-| Bass pulse (whole song) | 2 bars, 8th notes | Bar 1: Bb C C C Bb C Eb C · Bar 2: F G G G F G Bb G |
-| Drums | 2 bars | Kick on 1, 3 and the "and" of 3 · snare on 2 and 4 · fast 16th hi-hats · open hat at the end of bar 2 |
-| Pluck arp | 4 bars, 16th notes | One note per bar, repeated fast: C, D, Eb, D |
-| Pad chords (held) | 4 bars, 1 chord per bar | G+C · G+D · G+C+Eb · G+Bb+D |
-| Lead melody | 8 bars | The main hook, played 3 times with a different ending each time. Notes are in the file. |
+| Part | Who | Length | Notes |
+|---|---|---|---|
+| Bass pulse (whole song) | Devin | 2 bars, 8th notes | Bar 1: Bb C C C Bb C Eb C · Bar 2: F G G G F G Bb G |
+| Drums: kick + snare | Bella | 2 bars | Kick on 1, 3 and the "and" of 3 · snare on 2 and 4 |
+| Drums: hi-hats | Daniel | 2 bars | Fast 16th closed hats · open hat at the end of bar 2 |
+| Pluck arp | Enzo | 4 bars, 16th notes | One note per bar, repeated fast: C, D, Eb, D |
+| Pad chords (held) | not picked yet | 4 bars, 1 chord per bar | G+C · G+D · G+C+Eb · G+Bb+D |
+| Lead melody | not picked yet | 8 bars | The main hook, played 3 times with a different ending each time. Notes are in the file. |
 
 All the notes are in C minor: C D Eb F G Ab Bb.
 
