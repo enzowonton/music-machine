@@ -12,7 +12,7 @@
 
 From `score/chase_strudel.js` (125 bpm, C minor).
 
-Same notes as Sunni's bars 1–2, played with a different sound: Eb C D Bb C D Eb F, then G, high D, Bb. Your last Bb is cut a little short because Therese comes in with two quick notes (C D) at the very end of bar 6.
+Same notes as Sunni's bars 1–2, played with a different sound: Eb C D Bb C D Eb F, then G, high D, Bb. Your last Bb is cut a little short because the ending (bars 7–8) starts with two quick notes (C D) at the very end of bar 6.
 
 ```js
 // 5. LEAD CALL + ANSWER (same notes as Sunni, played in bars 5–6)

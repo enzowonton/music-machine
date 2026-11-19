@@ -102,11 +102,11 @@ Here's who plays what so far (125 bpm, C minor, 1 bar = 4 beats). Your line from
 | Drums: kick + snare | Bella | 2 bars | Kick on 1, 3 and the "and" of 3 · snare on 2 and 4 |
 | Drums: hi-hats | Daniel | 2 bars | Fast 16th closed hats · open hat at the end of bar 2 |
 | Pluck arp | Enzo | 4 bars, 16th notes | One note per bar, repeated fast: C, D, Eb, D |
-| Pad chords (held) | not picked yet | 4 bars, 1 chord per bar | G+C · G+D · G+C+Eb · G+Bb+D |
+| Pad chords (held) | Therese | 4 bars, 1 chord per bar | G+C · G+D · G+C+Eb · G+Bb+D |
 | Lead melody, bars 1–2 (call + answer 1) | Sunni | 2 bars | Eb C D Bb C D Eb F · G D Bb |
 | Lead melody, bars 3–4 (call + answer 2) | Liana | 2 bars | Eb C D Bb C D Eb F · G Bb F |
 | Lead melody, bars 5–6 (call + answer 3) | Zitlali | 2 bars | Same notes as Sunni, with a different sound |
-| Lead melody, bars 7–8 (ending) | Therese | 2 bars + pickup | C D pickup at the end of bar 6, then Eb D C D C Bb · C G F |
+| Lead melody, bars 7–8 (ending) | not picked yet | 2 bars + pickup | C D pickup at the end of bar 6, then Eb D C D C Bb · C G F |
 
 All the notes are in C minor: C D Eb F G Ab Bb.
 

@@ -1,6 +1,6 @@
 # Therese's instrument
 
-**Part:** Lead melody, bars 7–8 (the ending)
+**Part:** Pad chords (held)
 
 **Instrument idea:** food instrument, touch bananas or fruit to play notes
 
@@ -12,11 +12,11 @@
 
 From `score/chase_strudel.js` (125 bpm, C minor).
 
-The last line of the lead. Starts with two quick notes (C D) at the very end of bar 6, right after Zitlali, then: Eb D C D C Bb, then C G F.
+4 held chords, one per bar, then it loops: G+C · G+D · G+C+Eb · G+Bb+D. Each chord rings for the whole bar.
 
 ```js
-// 5. LEAD CALL + ANSWER (bars 7–8, the pickup "c6 d6" ends bar 6)
-note("<[d#6@5 ~ d6 c6 d6@5 ~ c6 a#5] [c6 ~ g5@2 ~ ~ f5@7 ~ ~ ~]>").s("sawtooth").lpf(2500).gain(0.6)
+// 4. PAD CHORDS
+note("<[g3,c4] [g3,d4] [g3,c4,d#4] [g3,a#3,d4]>").s("triangle").gain(0.5)
 ```
 
 ## Your files
